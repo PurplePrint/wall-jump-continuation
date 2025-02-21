@@ -5,6 +5,7 @@ import genandnic.walljump.WallJumpConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -32,10 +33,17 @@ public class FallingHud extends Gui {
         }
 
         Minecraft mc = Minecraft.getMinecraft();
+        if (mc.player.isCreative() || mc.player.isSpectator()) {
+            return;
+        }
+
         ScaledResolution scaledResolution = new ScaledResolution(mc);
 
         int centerX = (int) (scaledResolution.getScaledWidth() / 2);
         int centerY = (int) (scaledResolution.getScaledHeight() / 2);
+
+        // white color for icon outline
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
         mc.getTextureManager().bindTexture(ICON);
         Gui.drawModalRectWithCustomSizedTexture(centerX + WallJumpConfig.fallingHudX, centerY + WallJumpConfig.fallingHudY, 0, 0, 17, 24, 17, 24);
